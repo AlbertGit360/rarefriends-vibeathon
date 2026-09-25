@@ -6,6 +6,22 @@
 
 **Category:** Character Spotlight
 
+## Updates
+
+**Sep 25, part 2: Proof of Burn card + flow diagram.**
+
+- **Proof of Burn card.** The character sheet now opens with a card in the style of the Rare Friends portfolio page: **Friends burned**, **XP gained**, **hardwire burned** (the RF value of the burned NFTs) and **Combat Level** with its Tier cap. Below the numbers is a strip of the burned Friends themselves, each with its generation and token id, and a count by generation. It is labelled *since last transfer · resets on sale*. The receipt log and the JSON export are one click below.
+- **Flow diagram** of how Proof of Burn works, from burn to receipt to sheet to any game, and how a sale resets it:
+
+![Proof of Burn flow](https://raw.githubusercontent.com/AlbertGit360/Burning_Gym/main/games/burning-gym/media/proof-of-burn-flow.png)
+
+**Sep 25, part 1: Proof of Burn.** Thank you to the Rare Friends team for the feedback on the shared character sheet ("anyone can build on top of this proof of burn"). This update turns that idea into code:
+
+- **Burn receipts.** Every sacrificed Friend now writes a receipt: which Friend was burned, its generation, which stat it trained and how much XP it gave. Stats are no longer stored at all; they are **derived from the receipts**. The character sheet has a new **Proof of burn** section with the receipt log.
+- **An open module + spec.** All the rules (food chain, XP, training time, level curve, Tier caps, combat numbers, reset on transfer) now live in [`proof-of-burn.ts`](https://github.com/AlbertGit360/Burning_Gym/blob/main/games/burning-gym/proof-of-burn.ts). It is pure TypeScript that any game can import. The one-page spec is [`PROOF_OF_BURN.md`](https://github.com/AlbertGit360/Burning_Gym/blob/main/games/burning-gym/PROOF_OF_BURN.md) and includes a proposed on-chain `FriendBurned` event: games rebuild the sheet from burn logs after the last transfer, with no stat storage.
+- **Export the sheet.** Character → Proof of burn → *View character sheet JSON* shows the full `proof-of-burn` v1 sheet (stats, combat numbers, every receipt) for another game to read.
+
+
 ## What did you build?
 
 A neon underground gym where your own Rare Friend is the star. You walk your Friend between four training machines, sacrifice lesser Friends to fuel its training, and watch it use the equipment. It pedals a bike whose flywheel spins in a ring of fire, presses a barbell, runs on a treadmill and punches a reflex ball. Its four stats (HP, Strength, Agility, Defence) grow into real fighting numbers, which you can test in a live sparring ring.
@@ -110,7 +126,7 @@ npm run dev:game -- games/burning-gym --port 4173
 - Pick one or more lesser Friends to sacrifice. Their XP and training time are combined. A Gen 6 Friend trains in 5 seconds, which is the quickest way to try it.
 - **Tiers:** each Tier unlocks the next 20 levels (caps 20 / 40 / 60 / 80 / 100). XP earned above the cap is banked until the next Tier opens.
 - **Training Ring:** a live practice fight against a dummy of any Tier.
-- **Portrait (top left):** character sheet with current fighting numbers and what the next level buys. **?** opens the full rules. **M** toggles sound; Settings has reduce-motion.
+- **Portrait (top left):** character sheet with current fighting numbers, what the next level buys, and the Proof of Burn card with the receipt log and JSON export. **?** opens the full rules. **M** toggles sound; Settings has reduce-motion.
 
 ## Screenshots
 
